@@ -1,0 +1,12 @@
+use the deque to store the "waiting elements" using the struct item that contains index and value
+-push_front when current < front
+-push_back otherwise
+
+for every current element check if it's greater than the front element of deque
+if so remove from front and put in the max[item.index] the current value 
+repeat until deque empty or front > current
+then push current item in deque
+
+at the end for each element remaining in the deque put max[item.index] = -1
+
+every item is inserted and removed 1 times so the comèlexity is linear.

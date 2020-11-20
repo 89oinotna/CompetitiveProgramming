@@ -16,6 +16,11 @@
 # Mono auto generated files
 mono_crash.*
 
+#Roba
+*.filters
+*.vcxproj
+*.sln
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
