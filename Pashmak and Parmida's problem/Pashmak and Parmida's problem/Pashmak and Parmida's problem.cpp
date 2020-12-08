@@ -7,6 +7,23 @@
 #include <algorithm>
 using namespace std;
 
+void add(vector<int>& v, int index, int x) {
+	while (index < v.size()) {
+		v[index] += x;
+		index += index & -index;
+	}
+}
+
+int sum(vector<int>& v, int i) {
+	int s = 0;
+	while (i > 0) {
+		s += v[i];
+		i -= i & -i;
+	}
+	return s;
+}
+
+
 /*There is a sequence a that consists of n integers a1, a2, ..., an. 
 Let's denote f(l, r, x) the number of indices k such that: l ≤ k ≤ r and ak = x. 
 His task is to calculate the number 
@@ -36,19 +53,25 @@ int main()
 			x= *(tmp[i]);
 		}
 	}
-
-	vector<int> num_counter(n, 0);
-	vector<int> j_found(n, 0);
-	for (int i = n - 1; i >= 0; i--) {
-		num_counter[v[i]]++;
-		j_found[i] = num_counter[i];
+	float j = 1;
+	vector<int> count_j(n, 0);
+	vector<int> counter(n, 0);
+	vector<int> ft(n, 0);
+	for (int i = n - 1; i >= 0; --i) {
+		counter[v[i]]++; //conto le occorrenze di v[i]
+		count_j[i] = counter[v[i]];		//mantengo qual era il counter sull'indice i (cosi poi posso eliminare il suo contributo)	
+								//k=counter[v[i]] occorrenze di v[i] in [i,n]
+										//cioè il valore della f(i,n,v[i])
+		add(ft, counter[v[i]], 1); //conto f(i,n,v[i]) ho per un indice j=counter[v[i]]
+		//quanti hanno j occorrenze (mi serve dopo per >)
+	}
+	int res = 0;
+	fill(counter.begin(), counter.end(), 0);
+	for (int i = 0; i < n; i++) {
+		add(ft, count_j[i], -1); //tolgo una occorrenza f(i,n,v[i]) (elimino il suo contributo)
+		counter[v[i]]++; //conto le occorrenze f(0,i,v[i])
+		res += sum(ft, counter[v[i]] - 1); //vedo quante occorrenze ho f(j,n,v[j]) minori di counter[v[i]] cioè f(0,i,v[i]) fissato i
 	}
 
-	vector<int> i_found(n, 0);
-	for (int i = 0; i <n; i++) {
-		num_counter[v[i]]++;
-		i_found[i] = num_counter[i];
-	}
-
-	cout << "ciao";
+	cout << res;
 }

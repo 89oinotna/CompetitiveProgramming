@@ -30,6 +30,9 @@ int main()
             if (i != 0) sum[i] = sum[i - 1];
         } 
     }
+    if(true)
+        if(true) false; 
+        else false;
     if(s.length()>1)
         sum[s.length() - 1] = sum[s.length() - 2];
     for (pair<int, int> query : queries) {
