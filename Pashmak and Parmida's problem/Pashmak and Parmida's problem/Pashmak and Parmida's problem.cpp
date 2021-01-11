@@ -53,7 +53,6 @@ int main()
 			x= *(tmp[i]);
 		}
 	}
-	float j = 1;
 	vector<int> count_j(n, 0);
 	vector<int> counter(n, 0);
 	vector<int> ft(n, 0);

@@ -53,6 +53,7 @@ int main()
 
     vector<int> fw(2*n);
     for (int i = 0; i < n; i++) {
+        //aggiungo 1 dove ho i right end
         add(fw, get<1>(segments[i]), 1);
     }
 
@@ -64,6 +65,8 @@ int main()
     //sweeping line e rimuovo quelli visti
     vector<int> res(n);
     for (int i = 0; i < n; i++) {
+        //ogni volta mi ritrovo direttamente il risultato 
+        //(cioè la somma dei right end point cioè quelli terminati iniziati dopo quello che controllo)
         res[get<2>(segments[i])]=sum(fw, get<1>(segments[i]))-1;
         add(fw, get<1>(segments[i]), -1);
         
