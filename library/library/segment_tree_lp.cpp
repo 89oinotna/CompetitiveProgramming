@@ -16,9 +16,10 @@
 using namespace std;
 template <typename T, typename BinaryFunct = binary_function <T, T, T>>
 class segment_tree {
+public:
     struct type_traits {
         T invalid;
-        BinaryFunct funct;
+        BinaryFunct funct; //merging
     };
     struct range {
         size_t l, r;
@@ -54,6 +55,7 @@ private:
 
 
     T get(range const& q, range node_segment, size_t pos) {
+        lazy_updates(node_segment, pos);
         // If segment of this node is a part of given range, then return  
         // the sum of the segment  
         if (q.l <= node_segment.l && q.r >= node_segment.r)
@@ -72,22 +74,61 @@ private:
         );
     }
 
-    void update(size_t i, binary_function <T, T, T> x, range r, size_t pos, T val) {
+    void update(size_t i, range r, size_t pos, T val) {
+        lazy_updates(r, pos);
         // Base Case: If the input index lies outside the range of  
         // this segment  
-        if (i < r.l || i > r.l)
+        if (i < r.l || i > r.r)
             return;
 
         // If the input index is in range of this node, then update  
         // the value of the node and its children  
-        st[pos] = x(st[pos], val);
-        if (r.l != r.e)
+        st[pos] = m_traits.funct(st[pos], val);
+        if (r.l != r.r)
         {
             size_t mid = (r.l + r.r) / 2;
-            update(i, x, { r.l, mid }, LEFT(pos), val);
-            update(i, x, { mid + 1, r.r }, RIGHT(pos), val);
+            update(i, { r.l, mid }, LEFT(pos), val);
+            update(i, { mid + 1, r.r }, RIGHT(pos), val);
         }
     }
+    void lazy_updates(range node_segment, size_t pos) {
+        if (lazy[pos] != 0) {
+            // The node in position start_index was marked as lazy
+            // during the update phases
+            st[pos] += lazy[pos];
+            if (node_segment.l!= node_segment.r) {
+                lazy[LEFT(pos)] = lazy[pos];
+                lazy[RIGHT(pos)] = lazy[pos];
+            }
+            // mark as the node as not lazy
+            // we propagate the change to the leafs
+            lazy[pos] = 0;
+        }
+    }
+    // increment all leaves in the range [qlo, ql, qr.hi] by delta
+    void update_range(int ql, int qr, int val, range node_segment, size_t pos) {
+        //apply pending lazy updates
+        lazy_updates(node_segment, pos);
+        if (node_segment.l > qr || node_segment.r < ql)
+            return;
+        //full overlap
+        else if (ql <= node_segment.l && node_segment.r <= qr) {
+            st[pos] += val; 
+            if (node_segment.l != node_segment.r) {
+                lazy[LEFT(pos)] += val;
+                lazy[RIGHT(pos)] += val;
+            }
+        }
+        //partial overlap
+        else {
+            size_t mid = (node_segment.l + node_segment.r) / 2;
+            update_range(ql, qr, val, { node_segment.l,     mid }, LEFT(pos));
+            update_range(ql, qr, val, { mid + 1, node_segment.r }, RIGHT(pos));
+            st[pos] = m_traits.funct(st[LEFT(pos)], st[RIGHT(pos)]);
+        }
+    }
+
+    
 
 public:
     segment_tree(vector<T> const& leaves, type_traits t) : m_traits(t) {
@@ -106,12 +147,16 @@ public:
         return { 0, size() - 1 };
     }
 
-    T get(range const& query) {
-        return get(query, root(), 0);
+    T get(int ql, int qr) {
+        return get(ql, qr, root(), 0);
     }
 
-    void update(size_t i, binary_function <T, T, T> x, T val) {
-        update(i, x, root(), 0, val);
+    void update(size_t i, T val) {
+        update(i, root(), 0, val);
+    }
+
+    void update_range(int ql, int qr, int val) {
+        update_range(ql, qr, val, root(), 0);
     }
 
 

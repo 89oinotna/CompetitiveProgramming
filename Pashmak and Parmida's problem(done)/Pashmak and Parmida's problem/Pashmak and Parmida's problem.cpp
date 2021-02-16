@@ -23,6 +23,19 @@ int sum(vector<int>& v, int i) {
 	return s;
 }
 
+template<typename T>
+void remap(vector<T>& a) {
+	vector<T> tmp(a.size());
+	copy(a.begin(), a.end(), tmp.begin());
+	sort(tmp.begin(), tmp.end());
+	size_t sz = distance(tmp.begin(), unique(tmp.begin(), tmp.end()));
+	tmp.resize(sz);
+
+	for (auto& x : a)
+		x = distance(tmp.begin(), lower_bound(tmp.begin(), tmp.end(), x));
+}
+
+
 
 /*There is a sequence a that consists of n integers a1, a2, ..., an. 
 Let's denote f(l, r, x) the number of indices k such that: l ≤ k ≤ r and ak = x. 
@@ -36,7 +49,7 @@ int main()
 	for (int i = 0; i < n; i++) {
 		cin >> v[i];
 	}
-	vector<int*> tmp(v.size());
+	/*vector<int*> tmp(v.size());
 	for (int i = 0; i < n; i++) {
 		tmp[i] = &(v[i]);
 	}
@@ -52,7 +65,8 @@ int main()
 			v[i] = ++j;
 			x= *(tmp[i]);
 		}
-	}
+	}*/
+	remap<int>(v);
 	vector<int> count_j(n, 0);
 	vector<int> counter(n, 0);
 	vector<int> ft(n, 0);
@@ -64,7 +78,7 @@ int main()
 		add(ft, counter[v[i]], 1); //conto f(i,n,v[i]) ho per un indice j=counter[v[i]]
 		//quanti hanno j occorrenze (mi serve dopo per >)
 	}
-	int res = 0;
+	uint64_t res = 0;
 	fill(counter.begin(), counter.end(), 0);
 	for (int i = 0; i < n; i++) {
 		add(ft, count_j[i], -1); //tolgo una occorrenza f(i,n,v[i]) (elimino il suo contributo)

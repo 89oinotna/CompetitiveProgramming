@@ -5,114 +5,125 @@
 #include <stdlib.h>
 #include <set>
 #include <algorithm>
+#include <tuple>
+#include <vector>
+#include <deque>
 using namespace std;
 
 struct Frog {
-    int pos;
-    int t_len;
-    int m_eaten;
+    long long int start;
+    long long int end;
+    int index;
     
     // This function is used by set to order 
-    // elements of Test. 
-    bool operator<(const Frog &f) const
+    bool operator<( Frog const& f) const
     {
-        return (pos < f.pos);
+        return (end < f.end);
     }
 };
 
 struct Mosquitoes {
-    int pos;
-    int size;
-    bool operator<(const Mosquitoes& m) const
+    long long int pos;
+    long long int size;
+    bool operator<( Mosquitoes const& m) const
     {
         return (pos < m.pos);
     }
 };
 
 
-void insert(set<Frog> &frogs, int pos, int t_len, int m_eaten) {
-    if (frogs.empty()) 
-        frogs.insert({ pos, t_len, m_eaten });
-    auto p = frogs.lower_bound({ pos, t_len, m_eaten })--;
-    while (p!=frogs.end()) {
-        if ( p->pos > pos+t_len) break;
-        
-        if (pos < p->pos) {
-            if () {}
+
+template <typename Iterator>
+//frogs are already non overlapped
+void resize(set<Frog>& frogs, Iterator it, Frog& f) {
+    it=frogs.erase(it);
+    //resize
+    while(it != frogs.end() && it->start <= f.end ) {
+        //full overlapped -> remove
+        if (it->end <= f.end) {
+            it=frogs.erase(it);
         }
+        //partial -> resize
         else {
-            if (pos > p->pos + p->t_len) p++;
-            else {
-                t_len -= p->pos + p->t_len + 1 - pos;
-                pos = p->pos + p->t_len + 1;
-            }
+            Frog newF = { f.end + 1, it->end, it->index };
+            frogs.erase(it);
+            frogs.insert(newF);
+            it= frogs.end();
         }
     }
+    frogs.insert(f);
 }
-
 
 int main()
 {
     int n, m;
     cin >> n >> m;
-    set<Frog> frogs; 
-    set<Mosquitoes> mosquitoes;
+    vector<tuple<int, long long int>> res(n);
+    set<Frog> frogs;
+    vector< Frog > f(n);
+    multiset<Mosquitoes> mosquitoes;
     for (int i = 0; i < n; i++) {
-        int pos, tongue_len;
+        long long int pos, tongue_len;
         cin >> pos >> tongue_len;
-        insert(frogs, pos, tongue_len, 0);
+        f[i] = { pos, pos + tongue_len, i };
+        res[i] = { 0, tongue_len };
+    }
+    //sort by start
+    sort(f.begin(), f.end(), [](Frog const& a, Frog const& b) {return a.start < b.start; });
+    Frog* prec=&f[0];
+    frogs.insert(f[0]);
+    for (int i = 1; i < n; i++) {
+        Frog* curr = &f[i];
+        //need to resize
+        if (curr->start <= prec->end ) {
+            //partial
+            if (curr->end > prec->end) {
+                curr->start=prec->end+1;
+                frogs.insert(f[i]);
+                prec = curr;
+            }
+            //else full overlap -> do not insert
+        }
+        else {
+            frogs.insert(f[i]);
+            prec = curr;
+        }
+        
     }
 
-    for (auto f:frogs) {
-        cout << f.pos << " "<<f.t_len<<" ";
-    }
+    
 
     for (int i = 0; i < m; i++) {
-        bool eaten = false;
-        int pos = 0, size=0;
+        long long int pos, size;
         cin >> pos >> size;
-        do {
-            eaten = false;
-            auto p=frogs.lower_bound({pos});
-            if (p->pos == pos) {// eat
-                int newtlen = p->t_len + size;
-                int eaten = p->m_eaten + 1;
-                int frog_pos = p->pos;
-                frogs.erase(p);
-                //insert(frogs, pos, newtlen, eaten);
-                //check for reachable mosquitoes
-                auto mm = mosquitoes.lower_bound({ pos, 0 });
-                while (mm->pos <= frog_pos+ newtlen) {
-                    newtlen += mm->size;
-                    mm++;
-                }
-                insert(frogs, frog_pos, newtlen, eaten);
-                eaten = true;
+        auto it = frogs.lower_bound({ 0, pos, 0 });
+
+        //is in frog range
+        if (it != frogs.end() && it->start <= pos) {
+            Frog frog = *it;
+            //eat it
+            get<0>(res[frog.index])++;
+            get<1>(res[frog.index]) += size;
+            frog.end += size;
+            //select mosquito from set
+            auto mosquito = mosquitoes.lower_bound({ it->start, 0 });
+            while (mosquito != mosquitoes.end() && mosquito->pos <= frog.end) {
+                //eat it
+                get<0>(res[frog.index])++;
+                get<1>(res[frog.index]) += mosquito->size;
+                frog.end += mosquito->size;
+                mosquito = mosquitoes.erase(mosquito);
             }
-            else {
-                //check prec
-                auto prec=--p;
-                if (pos < prec->pos && prec->pos + prec->t_len >= pos) {
-                    int newtlen = p->t_len + size;
-                    int eaten = p->m_eaten + 1;
-                    int frog_pos = prec->pos;
-                    frogs.erase(p);
-                    //insert(frogs, frog_pos, newtlen, eaten);
-                    //check for reachable mosquitoes
-                    auto mm = mosquitoes.lower_bound({ pos, 0 });
-                    while (mm->pos <= frog_pos + newtlen) {
-                        newtlen += mm->size;
-                        mm++;
-                    }
-                    insert(frogs, frog_pos, newtlen, eaten);
-                    eaten = true;
-                }
-                else {
-                    mosquitoes.insert({pos, size});
-                }
-                
-            }
-        } while (eaten);
+            resize(frogs, it, frog);
+        }
+        else {
+            //add to set
+            mosquitoes.insert({ pos, size });
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout<< get<0>(res[i])<<" "<<get<1>(res[i]) <<endl;
     }
     
 }

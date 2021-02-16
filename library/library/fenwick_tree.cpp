@@ -4,7 +4,7 @@ template <typename T>
 class fenwick_tree {
     std::vector<T> ft;
 public:
-    fenwick_tree(int n) : ft(n + 1) {}
+    fenwick_tree(int n) : ft(n + 1, 0) {}
 
     void add(int l, T x) {
         while (l < ft.size()) {

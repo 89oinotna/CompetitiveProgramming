@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <cassert>
+#include <functional> 
 /*
     An array representation of tree is used to represent Segment Trees.
     For each node at index i,
@@ -16,9 +17,10 @@
 using namespace std;
 template <typename T, typename BinaryFunct = binary_function <T, T, T>>
 class segment_tree {
+public:
     struct type_traits {
         T invalid;
-        BinaryFunct funct;
+        BinaryFunct funct; //merging
     };
     struct range {
         size_t l, r;
@@ -26,7 +28,7 @@ class segment_tree {
             : l(ll), r(rr)
         {}
     };
-    private:
+   private:
 	    vector<T> st;
         type_traits m_traits; 
 
@@ -71,20 +73,20 @@ class segment_tree {
             );
         }
 
-        void update(size_t i, binary_function <T, T, T> x, range r, size_t pos, T val) {
+        void update(size_t i, range r, size_t pos, T val) {
             // Base Case: If the input index lies outside the range of  
             // this segment  
-            if (i < r.l || i > r.l)
+            if (i < r.l || i > r.r)
                 return;
 
             // If the input index is in range of this node, then update  
             // the value of the node and its children  
-            st[pos] = x(st[pos], val);
-            if (r.l != r.e)
+            st[pos] = m_traits.funct(st[pos], val);
+            if (r.l != r.r)
             {
                 size_t mid = (r.l+r.r)/2;
-                update(i, x, { r.l, mid }, LEFT(pos), val);
-                update(i, x, { mid+1, r.r }, RIGHT(pos), val);
+                update(i, { r.l, mid }, LEFT(pos), val);
+                update(i, { mid+1, r.r }, RIGHT(pos), val);
             }
         }
 
@@ -109,8 +111,8 @@ class segment_tree {
             return get(query, root(), 0);
         }
 
-        void update(size_t i, binary_function <T, T, T> x, T val) {
-            update(i, x, root(), 0, val);
+        void update(size_t i, T val) {
+            update(i, root(), 0, val);
         }
 
 
