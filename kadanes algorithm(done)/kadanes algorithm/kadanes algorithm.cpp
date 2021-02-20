@@ -7,6 +7,13 @@
 #include <limits.h>
 using namespace std;
 
+/*
+1) max subarray cant begin with a negastive number
+2) add items until we have a positive sum 
+3) if the sum goes negative with a[i] start a new sum with a[i+1]
+- use a variable max to store the max sum every time
+*/
+
 int main()
 {
     int T = 0;

@@ -6,7 +6,15 @@
 #include <vector>
 #include <queue>
 using namespace std;
+/*
+use a deque to track the seen elements in an ordered way
+1) while current greater than the ones in deque remove and assign curr as next greater 
+2) insert it in the front
+- if greater i have removed all -> deque ordered on inser cause is the only one
+- if there is some greater inserting it in the front ensures ordering 
 
+at the end all element in the deque are the ones without the next grater elem
+*/
 long long int* initialize(long long int n) {
     long long int* arr=(long long int*)malloc(sizeof(unsigned long long int)*n);
     for (long long int i = 0; i < n; i++) {
@@ -23,7 +31,7 @@ struct item {
 };
 
  long long int* getMaxs( long long int* arr, unsigned long long int n) {
-     long long int* maxs = ( long long int*)malloc(sizeof(unsigned long long int) * n);
+     long long int* maxs = ( long long int*)malloc(sizeof(long long int) * n);
     
     deque<item> dq;
 
@@ -33,14 +41,10 @@ struct item {
             maxs[it.index] = arr[i];
             dq.pop_front();
         }
-        if (dq.empty() || arr[i] < dq.front().value){
-            item it = { i, arr[i] };
-            dq.push_front(it);
-        }
-        else {
-            item it = { i, arr[i] };
-            dq.push_back(it);
-        }
+        
+        item it = { i, arr[i] };
+        dq.push_back(it);
+        
         
     }
     while (!dq.empty()) {

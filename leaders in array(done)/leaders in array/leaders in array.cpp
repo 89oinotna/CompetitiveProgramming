@@ -8,7 +8,11 @@
 #include <stack>
 using namespace std;
 
-
+/*
+- scan right to left
+- store the max element seen and use it to check if the current element is a leader 
+(so rgeater than max)
+*/
 
 
 int main()

@@ -4,6 +4,13 @@
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
+
+/*
+- use a variable to store the sum of all the elements
+- find the missing using n*(n-1)/2 
+
+*/
+
 int main()
 {
     int T = 0;

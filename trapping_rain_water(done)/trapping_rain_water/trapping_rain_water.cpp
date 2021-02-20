@@ -3,6 +3,15 @@
 #include <stdlib.h>
 #include <vector>
 using namespace std;
+/*
+store for each index how much water it can contain using left and right height.
+1) left -> right max for each index
+2) right -> left max for each index
+3) use the min(maxl, maxr) and subtract to it the height
+- if greater than 0 then add to the water sum.
+*/
+
+
 int main()
 {
     int T;
