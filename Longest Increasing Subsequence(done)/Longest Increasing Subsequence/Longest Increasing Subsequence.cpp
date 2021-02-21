@@ -18,6 +18,19 @@ struct elem {
     }
 
 };
+
+/*
+    use a set to store the dominating position
+    using lower_bound get the >= element in set:
+    - if there isnt => insert it with dominating position as the max dominating+1
+    - otherwise if there is i st i>=j then j dominates the position of i => insert j (with dom pos of i) and remove i
+
+    this way we can build a serie of lis in the set which each lis is represented by a dominating position
+
+    at the end the sie of the set will be the lis 
+    
+*/
+
 int longestSubsequence(int n, int a[])
 {
     set<elem> s;

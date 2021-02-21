@@ -41,6 +41,20 @@ void remap(vector<T>& a) {
 Let's denote f(l, r, x) the number of indices k such that: l ≤ k ≤ r and ak = x. 
 His task is to calculate the number 
 of pairs of indicies i, j (1 ≤ i < j ≤ n) such that f(1, i, ai) > f(j, n, aj).*/
+
+/*
+	use fw
+
+	loop from right:
+	-mantain a counter to count each value occurrence
+	-store the count of vi for each i f(i,n,v[i])
+	- add to fw 1 to keep track of how many counters we have for each value
+
+	loop from left:
+	- using the count of a vi remove its contribution in fw
+	- use an array to count occurrencies of each value  f(0,i,v[i])
+	- meanwhile use fw sum to check how many f(1, i, ai) > f(j, n, aj) fixed i
+*/
 int main()
 {
 	int n;
@@ -49,23 +63,7 @@ int main()
 	for (int i = 0; i < n; i++) {
 		cin >> v[i];
 	}
-	/*vector<int*> tmp(v.size());
-	for (int i = 0; i < n; i++) {
-		tmp[i] = &(v[i]);
-	}
-	sort(tmp.begin(), tmp.end(), [](const int* a, const int* b) {
-		return *a < *b;
-		});
-	int j = 0; //last index in remap
-	int x = *(tmp[0]); //last number seen
-	for (int i = 0; i < n; i++) {
-		if(x == *(tmp[i]))
-			v[i] = j;
-		else {
-			v[i] = ++j;
-			x= *(tmp[i]);
-		}
-	}*/
+	
 	remap<int>(v);
 	vector<int> count_j(n, 0);
 	vector<int> counter(n, 0);

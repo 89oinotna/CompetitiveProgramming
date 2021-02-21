@@ -19,6 +19,28 @@ void remap(vector<T>& a) {
     for (auto& x : a)
         x = distance(tmp.begin(), lower_bound(tmp.begin(), tmp.end(), x));
 }
+
+/*
+    remap values
+
+    use 2 fw:
+    1) left -> right on the array:
+        - use fw to store how many elements j where j is also the position in fw
+            just add 1 in position j = v[i]
+        - loop:
+            given elements vi use query sum(vi) on fw to get the count of elements < vi
+            and store it in a counter array
+
+    reverse the array
+
+    2) left -> right on the array:
+        - do the same as before but counting how many elements are greater
+            this is done by subtracting sum(vi) from sum(max)
+
+    to get the results just parallel loop on the 2 counter array:
+    - multiplying their values to get all possible combinations
+*/
+
 int main()
 {
     int n;

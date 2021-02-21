@@ -7,9 +7,10 @@
 #include <algorithm>
 using namespace std;
 /*
-    a flix can only increase the score by 2
-    beginning - end of the sequence
-    so we can have a max score og n -> string len
+    a flip can only increase the score by 2:
+    - beginning - end of the sequence
+
+    so we can have a max score of n = string len
     or we can have m + 2 where m is the longest alternating subsequence
     min(n, m+2)
 */

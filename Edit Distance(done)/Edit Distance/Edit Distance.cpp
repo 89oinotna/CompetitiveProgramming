@@ -7,6 +7,17 @@
 #include <stdlib.h>
 using namespace std;
 
+/*
+    matrix:
+    - row char s+1
+    - column char t+1
+
+    m[i][j]= - i==0 || j==0 => i+j
+            - equal char dont contribute to ed so take min topleft
+            - different chars contribute to ed => take 1+min(topleft (substitution), left(deleting/inserting left), top(deleting/inserting top))
+    
+*/
+
 int editDistance(string s, string t) {
     vector<vector<int>> m(s.size() + 1);
 

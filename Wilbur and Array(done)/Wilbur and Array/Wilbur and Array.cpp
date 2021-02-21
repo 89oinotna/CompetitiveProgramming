@@ -6,6 +6,17 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
+
+/*
+    since for each operation on position i we increase all the remaining array
+    we can start operating from left -> right:
+    - if < goal then increase
+    - otherwise decrease
+
+    this ensures that whenever we change position its value is not changed
+    and also the operations to align to goal are the minimum for each position.
+*/
+
 int main()
 {
     int n;

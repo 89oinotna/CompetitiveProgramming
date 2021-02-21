@@ -14,7 +14,7 @@ using namespace std;
         if we chose to take the node then we dont care about children (we can take or not them)
             so we add to our counter min(cover taking the node, cover not taking)
         if we chose to not take this node then all children must be chosen
-            so we are constrained to chose each child
+            so we are constrained to take each child
 
 */
 size_t cover_vertex(vector<vector<size_t>>&m, vector<vector<int>>& tree, int parent, int i, bool taken) {

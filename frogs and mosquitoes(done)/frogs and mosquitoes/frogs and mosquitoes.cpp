@@ -54,6 +54,27 @@ void resize(set<Frog>& frogs, Iterator it, Frog& f) {
     frogs.insert(f);
 }
 
+/*
+store frogs as segments with starting and end points where end point is pos+tongue lenght
+sort frogs by their starting position
+
+create a set of frogs while resizing frogs "action space":
+- a frog can eat only on its right and if 2 frogs can eat the leftmost eats it so
+ given frogi and frogj with i<j 
+ - if frogi partial overlaps with frogj then the overlapped space is for sure "action space" of frog i 
+    so redefine starting position of frogj to the end of frogi
+    insert both frogi and frogj
+ - if frogi partial overlaps with frogj then frogj cant eat so we dont need to insert frogj
+
+when mosquito lands on pos then:
+- using lower_bound on the frog set to find the frog which has rightend >= pos
+    then check if starting is <= pos
+    - if so eat it and continues to eat possible mosquitoes searching using lower_bound 
+        then resize modifing the endpoint and resizing the frogs right next
+    - otherwise insert mosquito in the multiset
+
+*/
+
 int main()
 {
     int n, m;

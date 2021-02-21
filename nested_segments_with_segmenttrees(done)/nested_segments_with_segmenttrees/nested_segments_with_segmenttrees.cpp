@@ -8,10 +8,13 @@
 using namespace std;
 
 /* 
+
 ordino i segmenti per starting point
 salvo gli endpoint nel segment tree
 devo contare gli ednpoint che trovo prima dell'endpoint del segmento visitato
-ogni volta che controllo per un segmento poi lo elimino*/
+ogni volta che controllo per un segmento poi lo elimino
+
+*/
 
 
 

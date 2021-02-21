@@ -7,7 +7,7 @@
 #include<vector>
 #include<algorithm>
 using namespace std;
-/*lcs over the string and its reverse*/
+/* lcs over the string and its reverse */
 int lcs(int x, int y, string s1, string s2) {
 
     vector<vector<int>> matrix(x + 1);

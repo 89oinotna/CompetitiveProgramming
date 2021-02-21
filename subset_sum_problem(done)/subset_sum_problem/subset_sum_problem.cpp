@@ -7,7 +7,12 @@
 #include <algorithm>
 using namespace std;
 /*
-simple knapsack
+    compute total sum and divide by 2 to get the half
+    now use knapsack to resolve:
+    - row objects
+    - column [0..half]
+
+
 */
 int equalPartition(int N, int arr[])
 {

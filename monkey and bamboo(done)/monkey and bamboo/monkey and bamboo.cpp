@@ -24,6 +24,14 @@ int tryFactor(vector<int>&ladder, int k) {
     return 1;
 }
 
+
+/*
+    perform a binary search to get the minimum k
+    for each number k iterating the binsearch try using it
+        - if cant be done using k than we should go right subarray
+        - otherwise left subarray (could be done with less than k)
+*/
+
 int main()
 {
     int T = 0; //#test cases

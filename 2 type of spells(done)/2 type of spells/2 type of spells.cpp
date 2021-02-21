@@ -19,6 +19,25 @@ struct Spell {
 
 };
 
+/*
+
+keep track of spells in 2 sets
+top: contains top spell (which size is the number of lighting spell)
+non-top: with all the others
+also keep track of the fire spells (if one) in top set 
+this ensures that we know when top contains fire spells 
+
+while inserting/removing spells use the top sum and nontop sum to keep track of the spells value
+
+after each insert/delete rebalance the 2 sets top,non top
+
+at the end:
+- if in top there is at least 1 fire then double the sum and add the non top sum
+- if top doesnt contain any fire (all light) then we cant double all the sum
+    the lowest spell doesnt need to be doubled instead double the greatest in the nontop (if any)
+*/
+
+
 int main()
 {
     int n = 0, k = 0;

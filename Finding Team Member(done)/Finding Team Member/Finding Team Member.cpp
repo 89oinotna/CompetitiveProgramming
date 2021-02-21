@@ -21,7 +21,7 @@ Every contestant hopes that he can find a teammate so that their team’s strength
 1) sort couples of teams dec
 2) loop on the sorted list marking when we form a team
 
-we form a team when each of the member of the couple are not taken.
+we form a team when each of the member of the couple is not taken. (this for sure is the best for both now)
 - we store the teammate for each member of the allowed couple(this also ensures that it has already a team)
 */
 

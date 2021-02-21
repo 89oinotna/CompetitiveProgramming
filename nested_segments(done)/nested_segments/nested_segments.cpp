@@ -24,6 +24,20 @@ int sum(vector<int>& v, int i) {
     return s;
 }
 
+/*
+    use fw
+    add 1 in corresponding position for each right end
+
+    sort segments by starting position
+
+    now perform sweeping line algorithm:
+     for each segment the sum at its right end indicates how many segments are terminated before it (so contained)
+
+    after knowing the answer for a segment remove its contribution
+    (this ensures that the next segments is also the one that starts before all the others)
+*/
+
+
 int main()
 {
     int n, l, r;

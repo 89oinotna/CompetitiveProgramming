@@ -5,6 +5,28 @@
 #include <stdlib.h>
 #include <vector>
 using namespace std;
+
+/*
+ Count the number of ways to split all the elements of the array 
+ into three contiguous parts so that the sum of elements in each part is the same
+
+ mantain a variable sum as the total sum
+ now we know that aech part mush have sum=(sum/3)
+
+ the middle part is constrained by left and right part
+
+
+ create array b to mark if in a position we can split having sum/3 starting from right
+ suffix
+ store in array c the suffix sum using b
+
+ prefix
+ now add in c the prefix sum starting from left
+
+ the result is the sum of all c elements
+*/
+
+
 int main()
 {
     int n;

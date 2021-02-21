@@ -5,7 +5,11 @@
 #include <stdlib.h>
 #include <unordered_map>
 using namespace std;
-
+/*
+use an unordered map to store the pieces by their length
+the key is the len and the value is the number of pieces
+while populating the map also keep track of the maximum 
+*/
 int main()
 {
     int n = 0;

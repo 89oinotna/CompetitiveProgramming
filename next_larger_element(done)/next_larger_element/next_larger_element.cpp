@@ -7,7 +7,7 @@
 #include <queue>
 using namespace std;
 /*
-use a deque to track the seen elements in an ordered way
+use a deque to track the seen elements ("waiting") in an ordered way
 1) while current greater than the ones in deque remove and assign curr as next greater 
 2) insert it in the front
 - if greater i have removed all -> deque ordered on inser cause is the only one

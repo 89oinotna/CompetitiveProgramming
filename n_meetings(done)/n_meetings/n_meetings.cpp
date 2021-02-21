@@ -7,6 +7,14 @@
 #include <algorithm>
 #include <tuple>
 using namespace std;
+
+/*
+    make 1 vector out of start/end vectors and sort it by the endpoint
+    exploit the fact that the one that terminates first is for sure better than one that terminates after it
+
+    loop over segments increasing the counter when we can take a segment:
+    - we take a segment if its starting position if after last end seen
+*/
 int maxMeetings(vector<int> start, vector<int> end, int n) {
     vector<tuple<int, int>> v(n);
     for (int i = 0; i < n; i++) {

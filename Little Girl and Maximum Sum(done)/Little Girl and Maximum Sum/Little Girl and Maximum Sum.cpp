@@ -28,6 +28,17 @@ int sum(vector<int>& v, int i) {
     return s;
 }
 
+/*
+    sort the array a
+
+    use fw tree to count for every position how many query has it
+    then create an array with elements as the value of such counters (using fw sum)
+
+    now sort the array b (decreasing)
+
+    for the result just parallel loop on a,b multiplying their values ai*bi
+    
+ */
 
 int main()
 {

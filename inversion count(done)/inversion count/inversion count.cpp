@@ -5,7 +5,16 @@
 #include <stdlib.h>
 #include <vector>
 using namespace std;
+/*
+exploit the mergesort to count the #invertions
 
+when in the merge of a=[i..mid]  b=[mid+1...j]
+ we have that the current element bi of b is less than current ai of a 
+	we have that bi is inverted with all the remaining elements in a (ai..amid)
+	
+we simply add every time the number of invertion to a sum variable for each merge
+
+*/
 int merge(vector<int> &v, int l, int r, int mid) {
 	int inv = 0;
 	int ll = l, rr = mid+1, k=0;

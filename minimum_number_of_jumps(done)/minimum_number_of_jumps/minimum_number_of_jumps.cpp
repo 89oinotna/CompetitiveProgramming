@@ -6,6 +6,11 @@
 using namespace std;
 /*
     Think as a graph and take the next max O(n)
+
+    We jump to the next position in jump range that lets us jump farther:
+    - done by simply sweeping on the range segment recording the max farther we can go
+        which is the max position + the jump value in the subarray
+    
 */
 int minJumps(int arr[], int n) {
     

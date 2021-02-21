@@ -1,5 +1,0 @@
-use maxl and maxr vector to store the max height on left and right of 1 position, 
-so maxl[i] contains max height to the left of position i
-
-using this 2 vector we can go through the array comparing for each position the max height
-this way we find the minimum height that tell us how much water is trapped for the position

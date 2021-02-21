@@ -7,6 +7,16 @@
 #include <algorithm>
 #include<tuple>
 using namespace std;
+
+/*
+    knapsack:
+    - if i==0 || j==0 => 0
+    - if (w(ei) > j) element cant be put in => just carry the left value
+    - if we can take it => check if it's better to take it or not
+                            max(left (not taking), m[i-1][j-w(ei)]+val(e1) this means the sack with enough space to contain it)
+
+*/
+
 int main()
 {
     int s, n;

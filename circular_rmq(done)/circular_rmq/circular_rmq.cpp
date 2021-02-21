@@ -137,6 +137,10 @@ public:
 };
 using namespace std;
 
+/*
+    simple implementation of lazy segment tree
+    supporting circular segment and min query
+*/
 
 int main()
 {

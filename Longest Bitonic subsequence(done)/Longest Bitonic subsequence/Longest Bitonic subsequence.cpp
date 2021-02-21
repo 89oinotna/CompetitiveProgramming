@@ -6,6 +6,14 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
+/*
+    Use lis on the array and its reverse 
+    storing for each position the max lis
+
+    this way we can parallel loop on the 2 lis array summing their value
+    while doing this store the max seen which is the result
+*/
+
 
 struct elem {
     int val;

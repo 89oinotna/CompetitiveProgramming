@@ -22,6 +22,16 @@ int sum(vector<int>& v, int i) {
     return s;
 }
 
+/*
+    simply use the fw to do the add:
+        - add from left
+        -remove after right
+    and then the queries
+
+    this way when we call the sum we have the value in each position 
+
+*/
+
 int main()
 {
     int t, n, u;

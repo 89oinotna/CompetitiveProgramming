@@ -6,6 +6,18 @@
 #include <algorithm>
 using namespace std;
 
+/*
+    DP using a matrix:
+    - row s1 chars + 1
+    - column s2 chars + 1
+
+    to populate:
+    - if j==0 || i==0 => 0
+    - if s[i]==s[j] => store 1 + topleft in m[i][j] this means increase the value of lcs
+    - otherwise store the max(top, left) this means we just carry the value of lcs
+*/
+
+
 int lcs(int x, int y, string s1, string s2) {
     vector<vector<int>> matrix(x+1);
     for (int i = 0; i <= x; i++) {

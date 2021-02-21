@@ -15,6 +15,21 @@ struct Node
     }
 };
 
+/*
+Given a binary tree in which each node element contains a number. 
+Find the maximum possible sum from one leaf node to another.
+
+use a post-order traversal storing l,r as the result of the left and right traversal
+
+keep track of the max sum every time (l+r+node)
+
+in the traversal if l>r then return node value+l otherwise node value+r
+
+
+
+*/
+
+
 int traverse(Node* root, int& max) {
     int l = INT_MIN;
     int r = INT_MIN;
